@@ -1,5 +1,5 @@
-// Buenas! Para esta primer preentrega agarré una pequeña parte del proyecto que trabajé en Desarrollo web, que es un e-commerce de bijouterié,
-//  y la idea sería agregarle un muy simple carrito de compras que haga el recuento de los productos agregados y la suma total, más algún descuento o incremento que pueda existir
+// Buenas! Para esta segunda preentrega vuelvo a utilizar esta porción del proyecto de desarrollo web para cumplir con los requisitos de la entrega, la única diferencia 
+// con la anterior es que le agregué una barra de búsqueda, para cumplir con lo solicitado de filtrado de array
 
 class Product {
     constructor(id, name, description, price) {
@@ -89,10 +89,37 @@ document.addEventListener('DOMContentLoaded', () => {
         totalPrice = 0
     });
 
-    // Por último, un botón para reiniciar el array del carrito y el contenido en pantalla
+    // Un botón para reiniciar el array del carrito y el contenido en pantalla
 
     cleanCartButton.addEventListener('click', () => {
         cart = []
         cartItemsContainer.innerHTML = ""
     })
+
+    // Funcionalidad de búsqueda que filtra las cards por título
+
+    const searchInput = document.getElementById('searchInput');
+
+    const filterCards = () => {
+        const searchText = searchInput.value.toLowerCase();
+
+        cards.forEach(card => {
+            const cardTitle = card.querySelector("#card_title").textContent.toLowerCase();
+            if (cardTitle.includes(searchText)) {
+                card.style.display = "block";
+            } else {
+                card.style.display = "none";
+            }
+        });
+
+        // Esto solo es para mantener la barra activa cuando hay texto
+
+        if (searchText.length > 0) {
+            searchInput.classList.add('active');
+        } else {
+            searchInput.classList.remove('active');
+        }
+    };
+
+    searchInput.addEventListener('input', filterCards);
 })
