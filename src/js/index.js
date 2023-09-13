@@ -57,22 +57,22 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const storedDiscount = localStorage.getItem('discount')
 
-    if(storedDiscount){
+    if (storedDiscount) {
         discount = JSON.parse(storedDiscount)
     }
 
     if (discount) {
         console.log('descuento')
         document.getElementById('discount').checked = true
-    }else{
+    } else {
         console.log('no descuento')
         document.getElementById('discount').checked = false
     }
 
     discountCheckbox.addEventListener('change', () => {
-        if (discountCheckbox.checked){
+        if (discountCheckbox.checked) {
             discount = true
-        }else{
+        } else {
             discount = false
         }
         localStorage.setItem('discount', JSON.stringify(discount))
@@ -82,6 +82,8 @@ document.addEventListener('DOMContentLoaded', () => {
     // Creo un event listener para 'Ver carrito'
 
     cartButton.addEventListener('click', () => {
+
+        cartItemsContainer.innerHTML = ""
 
         const hr = document.createElement('hr')
 
@@ -103,7 +105,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Se declaran los bools destinados a chequear envío y descuento
 
-        if (discount){
+        if (discount) {
             totalPrice = totalPrice * 0.80
         }
         if (totalPrice >= 5000) { freeShipping = true } else false
