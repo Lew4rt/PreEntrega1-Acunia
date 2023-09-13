@@ -1,5 +1,5 @@
-// Buenas! Para esta segunda preentrega vuelvo a utilizar esta porción del proyecto de desarrollo web para cumplir con los requisitos de la entrega, la única diferencia 
-// con la anterior es que le agregué una barra de búsqueda, para cumplir con lo solicitado de filtrado de array
+// En esta tercer preentrega se agregó la persistencia de datos mediante localstorage y el manejo de JSON.stringify,
+// además de un poco de organización de directorios y unos pocos fixes y optimización de código, se pueden chequear anteriores commits para ver diferencias
 
 class Product {
     constructor(id, name, description, price) {
@@ -24,24 +24,60 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Declaro las variables con las que voy a trabajar
 
-    const cards = document.querySelectorAll('.card');
+    const cards = document.querySelectorAll('.card')
 
-    const cartButton = document.getElementById('cartButton');
+    const cartButton = document.getElementById('cartButton')
     const cleanCartButton = document.getElementById('cleanCartButton')
-    const cartItemsContainer = document.getElementById('cartItemsContainer');
+    const cartItemsContainer = document.getElementById('cartItemsContainer')
+    const discountCheckbox = document.getElementById('discount')
 
     let cart = [];
     let totalPrice = 0
+    let discount = false
+    let freeShipping = false
+
+    const storedCart = localStorage.getItem('cart')
+
+    if (storedCart) {
+        cart = JSON.parse(storedCart)
+    }
 
     // Creo un objecto product por cada artículo en el html y me guardo sus datos, a su vez le asigno a cada uno un event listener para poder agregarlos al array cart
 
     cards.forEach((card) => {
         const product = createProductFromCard(card)
         card.addEventListener('click', () => {
-            cart.push(product);
-            alert(`${product.name} agregado al carrito!`);
-        });
+            cart.push(product)
+            alert(`${product.name} agregado al carrito!`)
+            localStorage.setItem('cart', JSON.stringify(cart))
+        })
     })
+
+    // Manejo el descuento con su respectivo event listener en el checkbox y lo guardo en storage
+
+    const storedDiscount = localStorage.getItem('discount')
+
+    if(storedDiscount){
+        discount = JSON.parse(storedDiscount)
+    }
+
+    if (discount) {
+        console.log('descuento')
+        document.getElementById('discount').checked = true
+    }else{
+        console.log('no descuento')
+        document.getElementById('discount').checked = false
+    }
+
+    discountCheckbox.addEventListener('change', () => {
+        if (discountCheckbox.checked){
+            discount = true
+        }else{
+            discount = false
+        }
+        localStorage.setItem('discount', JSON.stringify(discount))
+    })
+
 
     // Creo un event listener para 'Ver carrito'
 
@@ -67,22 +103,19 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Se declaran los bools destinados a chequear envío y descuento
 
-        let freeShipping = false
-        let discount = false
-        if (document.getElementById('discount').checked) {
-            discount = true
+        if (discount){
             totalPrice = totalPrice * 0.80
-        } else {
-            discount = false
         }
         if (totalPrice >= 5000) { freeShipping = true } else false
 
         // Se muestra el total con sus cálculos correspondientes
 
-        const cartTotal = document.createElement('p')
-        cartTotal.textContent = `El total con ${(freeShipping ? "envío gratis" : "envío")} ${(discount ? "y con descuento del 20% es de" : "")} es de $${(freeShipping ? totalPrice : totalPrice + 500)}`
-        cartItemsContainer.appendChild(cartTotal)
-        cartTotal.style.marginBottom = "20px"
+        if (cart.length > 0) {
+            const cartTotal = document.createElement('p')
+            cartTotal.textContent = `El total con ${(freeShipping ? "envío gratis" : "envío")} ${(discount ? "y con descuento del 20%" : "")} es de $${(freeShipping ? totalPrice : totalPrice + 500)}`
+            cartItemsContainer.appendChild(cartTotal)
+            cartTotal.style.marginBottom = "20px"
+        }
 
         // Y se reinicia la variable para evitar que se stackee con el próximo cálculo, y así poder generar una suerte de historial
 
@@ -94,6 +127,7 @@ document.addEventListener('DOMContentLoaded', () => {
     cleanCartButton.addEventListener('click', () => {
         cart = []
         cartItemsContainer.innerHTML = ""
+        localStorage.removeItem('cart');
     })
 
     // Funcionalidad de búsqueda que filtra las cards por título
@@ -106,9 +140,9 @@ document.addEventListener('DOMContentLoaded', () => {
         cards.forEach(card => {
             const cardTitle = card.querySelector("#card_title").textContent.toLowerCase();
             if (cardTitle.includes(searchText)) {
-                card.style.display = "block";
+                card.style.display = "block"
             } else {
-                card.style.display = "none";
+                card.style.display = "none"
             }
         });
 
