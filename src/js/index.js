@@ -1,57 +1,126 @@
-// En esta tercer preentrega se agregó la persistencia de datos mediante localstorage y el manejo de JSON.stringify,
-// además de un poco de organización de directorios y unos pocos fixes y optimización de código, se pueden chequear anteriores commits para ver diferencias
+// En esta entrega final se agregó al proyecto el fetching de datos desde un .json y se realizó una creación dinámica de cada tarjeta en pantalla
+// El código fue en gran parte refactorizado para funcionar desde el .json y no desde elementos html previamente creados (dejé comentado en index.html las cards como estaban anteriormente)
+
+// Declaro las variables con las que voy a trabajar
+
+const cartButton = document.getElementById('cartButton')
+const cleanCartButton = document.getElementById('cleanCartButton')
+const cartItemsContainer = document.getElementById('cartItemsContainer')
+const discountCheckbox = document.getElementById('discount')
+
+let cards;
+let cart = [];
+let totalPrice = 0
+let discount = false
+let freeShipping = false
+
+const storedCart = localStorage.getItem('cart')
 
 class Product {
-    constructor(id, name, description, price) {
-        this.id = id
-        this.name = name
+    constructor(title, description, price, imageSrc, element) {
+        this.title = title
         this.description = description
         this.price = parseFloat(price)
+        this.imageSrc = imageSrc
+        this.element = element
     }
 }
 
-const createProductFromCard = (card) => {
-    const id = card.getAttribute('id')
-    const price = card.querySelector("#card_price").textContent
-    const name = card.querySelector("#card_title").textContent
-    const description = card.querySelector("#card_description").textContent
-
-    return new Product(id, name, description, price)
-
+const createProductFromCard = (card, element) => {
+    return new Product(card.title, card.description, card.price, card.imageSrc, element)
 }
 
 document.addEventListener('DOMContentLoaded', () => {
 
-    // Declaro las variables con las que voy a trabajar
+    // Extraigo los datos de cards.json
 
-    const cards = document.querySelectorAll('.card')
+    fetch('../../cards.json')
+        .then(response => response.json())
+        .then(cardsFromJson => {
 
-    const cartButton = document.getElementById('cartButton')
-    const cleanCartButton = document.getElementById('cleanCartButton')
-    const cartItemsContainer = document.getElementById('cartItemsContainer')
-    const discountCheckbox = document.getElementById('discount')
+            cards = []
 
-    let cart = [];
-    let totalPrice = 0
-    let discount = false
-    let freeShipping = false
+            const cardsContainer = document.getElementById('cardsContainer');
 
-    const storedCart = localStorage.getItem('cart')
+            cardsFromJson.forEach(card => {
+
+                const cardElement = document.createElement('div');
+                cardElement.classList.add('card');
+
+                // Extraigo los datos de cada elemento padre correspondiente a cada card para crear el objecto product
+
+                const product = createProductFromCard(card, cardElement)
+
+                // Agrego dicho objecto a una lista de products con la que voy a trabajar más adelante
+
+                cards.push(product)
+
+                // Y le asigno a dicho elemento padre su correspondiente onClick para que pueda ser agregado al cart
+
+                cardElement.addEventListener('click', () => {
+                    cart.push(product)
+                    Swal.fire({
+                        position: 'top-end',
+                        icon: 'success',
+                        title: 'Producto agregado al carrito!',
+                        showConfirmButton: false,
+                        timer: 1100
+                    })
+                    localStorage.setItem('cart', JSON.stringify(cart))
+                })
+
+                // Creo el resto de los elementos correspondientes a cada card para mostrar los datos del .json
+
+                const cardImage = document.createElement('div');
+                cardImage.classList.add('card_image');
+
+                if (card.imageSrc.endsWith('.jpg')) {
+                    const image = document.createElement('img');
+                    image.src = card.imageSrc;
+                    image.alt = card.title;
+                    cardImage.appendChild(image);
+                } else if (card.imageSrc.endsWith('.mp4')) {
+                    const video = document.createElement('video');
+                    video.src = card.imageSrc;
+                    video.autoplay = true;
+                    video.muted = true;
+                    video.loop = true;
+                    cardImage.appendChild(video);
+                }
+
+                const cardDescription = document.createElement('div');
+                cardDescription.classList.add('card_description');
+
+                const cardTitle = document.createElement('h3');
+                cardTitle.textContent = card.title;
+
+                const cardDescriptionText = document.createElement('p');
+                cardDescriptionText.classList.add('card_description_text');
+                cardDescriptionText.textContent = card.description;
+
+                const cardPrice = document.createElement('p');
+                cardPrice.classList.add('card_price');
+                cardPrice.innerHTML = `$<span>${card.price}</span>`;
+
+                cardDescription.appendChild(cardTitle);
+                cardDescription.appendChild(document.createElement('hr'));
+                cardDescription.appendChild(cardDescriptionText);
+                cardDescription.appendChild(document.createElement('hr'));
+                cardDescription.appendChild(cardPrice);
+
+                cardElement.appendChild(cardImage);
+                cardElement.appendChild(cardDescription);
+
+                cardsContainer.appendChild(cardElement);
+            })
+        })
+        .catch(error => {
+            console.error('Error loading JSON data:', error);
+        });
 
     if (storedCart) {
         cart = JSON.parse(storedCart)
     }
-
-    // Creo un objecto product por cada artículo en el html y me guardo sus datos, a su vez le asigno a cada uno un event listener para poder agregarlos al array cart
-
-    cards.forEach((card) => {
-        const product = createProductFromCard(card)
-        card.addEventListener('click', () => {
-            cart.push(product)
-            alert(`${product.name} agregado al carrito!`)
-            localStorage.setItem('cart', JSON.stringify(cart))
-        })
-    })
 
     // Manejo el descuento con su respectivo event listener en el checkbox y lo guardo en storage
 
@@ -78,7 +147,6 @@ document.addEventListener('DOMContentLoaded', () => {
         localStorage.setItem('discount', JSON.stringify(discount))
     })
 
-
     // Creo un event listener para 'Ver carrito'
 
     cartButton.addEventListener('click', () => {
@@ -91,7 +159,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         cart.forEach(item => {
             const cartItem = document.createElement('p')
-            cartItem.textContent = `${item.name} - $${item.price}`
+            cartItem.textContent = `${item.title} - $${item.price}`
             cartItemsContainer.appendChild(cartItem)
             totalPrice += item.price
             console.log(totalPrice)
@@ -119,7 +187,7 @@ document.addEventListener('DOMContentLoaded', () => {
             cartTotal.style.marginBottom = "20px"
         }
 
-        // Y se reinicia la variable para evitar que se stackee con el próximo cálculo, y así poder generar una suerte de historial
+        // Y se reinicia la variable para evitar que se stackee con el próximo cálculo
 
         totalPrice = 0
     });
@@ -140,11 +208,12 @@ document.addEventListener('DOMContentLoaded', () => {
         const searchText = searchInput.value.toLowerCase();
 
         cards.forEach(card => {
-            const cardTitle = card.querySelector("#card_title").textContent.toLowerCase();
+            console.log(card)
+            const cardTitle = card.title.toLowerCase() //card.querySelector("#card_title").textContent.toLowerCase();
             if (cardTitle.includes(searchText)) {
-                card.style.display = "block"
+                card.element.style.display = "block"
             } else {
-                card.style.display = "none"
+                card.element.style.display = "none"
             }
         });
 
@@ -158,4 +227,5 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     searchInput.addEventListener('input', filterCards);
+
 })

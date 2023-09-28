@@ -1,0 +1,38 @@
+[
+    {
+      "title": "Collar corazón",
+      "description": "Dije de cristal en forma de corazón de 3 CM, con engarces de acero quirúrgico y cadena de acero quirúrgico de 50 CM de largo.",
+      "price": 3500,
+      "imageSrc": "./src/images/dije_corazon.jpg"
+    },
+    {
+      "title": "Collar fan",
+      "description": "Dije de acero quirúrgico macizo, 2 modelos a elección: • Martillo de Thor • Mascara de Darth Vader Cadena bolita de acero quirúrgico de 50 CM de largo",
+      "price": 2850,
+      "imageSrc": "./src/video/llaveros_acero.mp4"
+    },
+    {
+      "title": "Collar signos",
+      "description": "Dije de acero quirúrgico en forma de medialuna con los signos del zodiaco colgando en el centro y Cadena de acero quirúrgico de 50 CM de largo",
+      "price": 1200,
+      "imageSrc": "./src/images/dije_luna.jpg"
+    },
+    {
+      "title": "Collar iníciales",
+      "description": "Iniciales de mostacillas japonesas 'miyuki' tejidas a mano, de 2 CM de alto, colores a elección con cadena de acero quirúrgico de 50 CM de largo.",
+      "price": 1200,
+      "imageSrc": "./src/images/dije_miyuki.jpg"
+    },
+    {
+      "title": "Souvenirs redondos",
+      "description": "Llaveros de resina de 5 CM de diámetro, color a elección personalizados con nombre, dije de metal y glitter.",
+      "price": 20000,
+      "imageSrc": "./src/video/llaveros_resina.mp4"
+    },
+    {
+      "title": "Llavero iniciales",
+      "description": "Llavero de resina epoxi de 4,5 CM de alto, colores a elección, personalizados con glitter, flores secas, stickers, dijes y nombre",
+      "price": 600,
+      "imageSrc": "./src/images/letras_resina.jpg"
+    }
+  ]

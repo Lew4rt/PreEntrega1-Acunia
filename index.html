@@ -1,132 +1,177 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>PreEntrega1-Acuña</title>
-    <link rel="stylesheet" href="./src/css/styles.css">
-    <link href="https://use.fontawesome.com/releases/v5.6.1/css/all.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Lato&display=swap" rel="stylesheet">
-</head>
+    <link rel="stylesheet" href="./src/css/styles.css" />
+    <link
+      href="https://use.fontawesome.com/releases/v5.6.1/css/all.css"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Lato&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.31/dist/sweetalert2.min.css"
+      rel="stylesheet"
+    />
+  </head>
 
-<body>
+  <body>
     <main>
-        <strong>
-            <h1>Carrito de compras</h1>
-        </strong>
-        <h2>Clickea los artículos para agregarlos al carrito, envíos gratis a partir de $5000</h2>
-        <div class="cart_button">
-            <button id="cartButton">Ver carrito</button>
-            <button id="cleanCartButton">Vaciar carrito</button>
-            <input class="checkbox_discount" type="checkbox" id="discount" name="discount" unchecked />
-            <label class="label_discount"for="discount">Tengo descuento</label>
+      <strong>
+        <h1>Carrito de compras</h1>
+      </strong>
+      <h2>
+        Clickea los artículos para agregarlos al carrito, envíos gratis a partir
+        de $5000
+      </h2>
+      <div class="cart_button">
+        <button id="cartButton">Ver carrito</button>
+        <button id="cleanCartButton">Vaciar carrito</button>
+        <input
+          class="checkbox_discount"
+          type="checkbox"
+          id="discount"
+          name="discount"
+          unchecked
+        />
+        <label class="label_discount" for="discount">Tengo descuento</label>
+      </div>
+      <div class="search-container">
+        <input
+          type="text"
+          name="search"
+          id="searchInput"
+          placeholder="Buscar por nombre"
+          class="search-input"
+        />
+        <a href="#" class="search-btn">
+          <i class="fas fa-search"></i>
+        </a>
+      </div>
+      <div class="cart_items_container" id="cartItemsContainer"></div>
+      <!-- Cards Section  -->
+      <section id="cardsContainer" class="cards_container">
+        <!-- <div id="card1" class="card" data-aos="fade-up" data-aos-duration="600">
+          <div class="card_image">
+            <img
+              src="./src/images/dije_corazon.jpg"
+              alt="Dije con forma de corazón"
+            />
+          </div>
+          <div class="card_description">
+            <h3 id="card_title">Collar corazón</h3>
+            <hr />
+            <p id="card_description" class="card_description_text">
+              Dije de cristal en forma de corazón de 3 CM, con engarces de acero
+              quirúrgico y cadena de acero quirúrgico de 50 CM de largo.
+            </p>
+            <hr />
+            <p class="card_price">$<span id="card_price">3500</span></p>
+          </div>
         </div>
-        <div class="search-container">
-            <input type="text" name="search" id="searchInput" placeholder="Buscar por nombre" class="search-input">
-            <a href="#" class="search-btn">
-                    <i class="fas fa-search"></i>      
-            </a>
+        <div id="card2" class="card" data-aos="fade-up" data-aos-duration="600">
+          <div class="card_image">
+            <video
+              src="./src/video/llaveros_acero.mp4"
+              autoplay
+              muted
+              loop
+            ></video>
+          </div>
+          <div class="card_description">
+            <h3 id="card_title">Collar fan</h3>
+            <hr />
+            <p id="card_description" class="card_description_text">
+              Dije de acero quirúrgico macizo, 2 modelos a elección: •martillo
+              de Thor •mascara de Darth Vader Cadena bolita de acero quirúrgico
+              de 50 CM de largo
+            </p>
+            <hr />
+            <p class="card_price">$<span id="card_price">2850</span></p>
+          </div>
         </div>
-        <div class="cart_items_container" id="cartItemsContainer"></div>
-        <!-- Cards Section  -->
-        <section class="cards_container">
-            <div id="card1" class="card" data-aos="fade-up" data-aos-duration="600">
-                <div class="card_image">
-                    <img src="./src/images/dije_corazon.jpg" alt="Dije con forma de corazón">
-                </div>
-                <div class="card_description">
-                    <h3 id="card_title">Collar corazón</h3>
-                    <hr>
-                    <p id="card_description" class="card_description_text">Dije de cristal en forma de corazón de 3 CM,
-                        con engarces de acero
-                        quirúrgico y cadena de acero quirúrgico de 50 CM de largo.
-                    </p>
-                    <hr>
-                    <p class="card_price">$<span id="card_price">3500</span></p>
-                </div>
-            </div>
-            <div id="card2" class="card" data-aos="fade-up" data-aos-duration="600">
-                <div class="card_image">
-                    <video src="./src/video/llaveros_acero.mp4" autoplay muted loop></video>
-                </div>
-                <div class="card_description">
-                    <h3 id="card_title">Collar fan</h3>
-                    <hr>
-                    <p id="card_description" class="card_description_text">Dije de acero quirúrgico macizo, 2 modelos a
-                        elección: •martillo de
-                        Thor
-                        •mascara de Darth Vader
-                        Cadena bolita de acero quirúrgico de 50 CM de largo
-                    </p>
-                    <hr>
-                    <p class="card_price">$<span id="card_price">2850</span></p>
-                </div>
-            </div>
-            <div id="card3" class="card" data-aos="fade-up" data-aos-duration="600">
-                <div class="card_image">
-                    <img src="./src/images/dije_luna.jpg" alt="Dije con una luna">
-                </div>
-                <div class="card_description">
-                    <h3 id="card_title">Collar signos</h3>
-                    <hr>
-                    <p id="card_description" class="card_description_text">Dije de acero quirúrgico en forma de
-                        medialuna con los signos del
-                        zodiaco colgando en el centro y
-                        Cadena de acero quirúrgico de 50 CM de largo
-                    </p>
-                    <hr>
-                    <p class="card_price">$<span id="card_price">1200</span></p>
-                </div>
-            </div>
-            <div id="card4" class="card" data-aos="fade-up" data-aos-duration="600">
-                <div class="card_image">
-                    <img src="./src/images/dije_miyuki.jpg" alt="Dije hecho de mostacillas miyuki">
-                </div>
-                <div class="card_description">
-                    <h3 id="card_title">Collar iníciales</h3>
-                    <hr>
-                    <p id="card_description" class="card_description_text">Iniciales de mostacillas japonesas "miyuki"
-                        tejidas a mano, de 2 CM
-                        de alto, colores a elección con cadena de acero quirúrgico de 50 CM de largo.
-                    </p>
-                    <hr>
-                    <p class="card_price">$<span id="card_price">1200</span></p>
-                </div>
-            </div>
-            <div id="card5" class="card" data-aos="fade-up" data-aos-duration="600">
-                <div class="card_image">
-                    <video src="./src/video/llaveros_resina.mp4" autoplay muted loop></video>
-                </div>
-                <div class="card_description">
-                    <h3 id="card_title">Souvenirs redondos</h3>
-                    <hr>
-                    <p id="card_description" class="card_description_text">Llaveros de resina de 5 CM de diámetro, color
-                        a elección
-                        personalizados con nombre, dije de metal y glitter.
-                    </p>
-                    <hr>
-                    <p class="card_price">$<span id="card_price">20000</span>por mayor, 30 llaveros </p>
-                </div>
-            </div>
-            <div id="card6" class="card" data-aos="fade-up" data-aos-duration="600">
-                <div class="card_image">
-                    <img src="./src/images/letras_resina.jpg" alt="Letras hechas de resina">
-                </div>
-                <div class="card_description">
-                    <h3 id="card_title">Llavero iniciales</h3>
-                    <hr>
-                    <p id="card_description" class="card_description_text">Llavero de resina epoxi de 4,5 CM de alto,
-                        colores a elección,
-                        personalizados con glitter, flores secas, stickers, dijes y nombre
-                    </p>
-                    <hr>
-                    <p class="card_price">$<span id="card_price">600</span></p>
-                </div>
-            </div>
-        </section>
+        <div id="card3" class="card" data-aos="fade-up" data-aos-duration="600">
+          <div class="card_image">
+            <img src="./src/images/dije_luna.jpg" alt="Dije con una luna" />
+          </div>
+          <div class="card_description">
+            <h3 id="card_title">Collar signos</h3>
+            <hr />
+            <p id="card_description" class="card_description_text">
+              Dije de acero quirúrgico en forma de medialuna con los signos del
+              zodiaco colgando en el centro y Cadena de acero quirúrgico de 50
+              CM de largo
+            </p>
+            <hr />
+            <p class="card_price">$<span id="card_price">1200</span></p>
+          </div>
+        </div>
+        <div id="card4" class="card" data-aos="fade-up" data-aos-duration="600">
+          <div class="card_image">
+            <img
+              src="./src/images/dije_miyuki.jpg"
+              alt="Dije hecho de mostacillas miyuki"
+            />
+          </div>
+          <div class="card_description">
+            <h3 id="card_title">Collar iníciales</h3>
+            <hr />
+            <p id="card_description" class="card_description_text">
+              Iniciales de mostacillas japonesas "miyuki" tejidas a mano, de 2
+              CM de alto, colores a elección con cadena de acero quirúrgico de
+              50 CM de largo.
+            </p>
+            <hr />
+            <p class="card_price">$<span id="card_price">1200</span></p>
+          </div>
+        </div>
+        <div id="card5" class="card" data-aos="fade-up" data-aos-duration="600">
+          <div class="card_image">
+            <video
+              src="./src/video/llaveros_resina.mp4"
+              autoplay
+              muted
+              loop
+            ></video>
+          </div>
+          <div class="card_description">
+            <h3 id="card_title">Souvenirs redondos</h3>
+            <hr />
+            <p id="card_description" class="card_description_text">
+              Llaveros de resina de 5 CM de diámetro, color a elección
+              personalizados con nombre, dije de metal y glitter.
+            </p>
+            <hr />
+            <p class="card_price">
+              $<span id="card_price">20000</span>por mayor, 30 llaveros
+            </p>
+          </div>
+        </div>
+        <div id="card6" class="card" data-aos="fade-up" data-aos-duration="600">
+          <div class="card_image">
+            <img
+              src="./src/images/letras_resina.jpg"
+              alt="Letras hechas de resina"
+            />
+          </div>
+          <div class="card_description">
+            <h3 id="card_title">Llavero iniciales</h3>
+            <hr />
+            <p id="card_description" class="card_description_text">
+              Llavero de resina epoxi de 4,5 CM de alto, colores a elección,
+              personalizados con glitter, flores secas, stickers, dijes y nombre
+            </p>
+            <hr />
+            <p class="card_price">$<span id="card_price">600</span></p>
+          </div>
+        </div> -->
+      </section>
     </main>
     <script src="./src/js/index.js"></script>
-</body>
-
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.31/dist/sweetalert2.all.min.js"></script>
+  </body>
 </html>
