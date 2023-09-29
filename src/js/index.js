@@ -130,13 +130,7 @@ document.addEventListener('DOMContentLoaded', () => {
         discount = JSON.parse(storedDiscount)
     }
 
-    if (discount) {
-        console.log('descuento')
-        document.getElementById('discount').checked = true
-    } else {
-        console.log('no descuento')
-        document.getElementById('discount').checked = false
-    }
+    discount ? document.getElementById('discount').checked = true : document.getElementById('discount').checked = false
 
     discountCheckbox.addEventListener('change', () => {
         if (discountCheckbox.checked) {
@@ -162,7 +156,6 @@ document.addEventListener('DOMContentLoaded', () => {
             cartItem.textContent = `${item.title} - $${item.price}`
             cartItemsContainer.appendChild(cartItem)
             totalPrice += item.price
-            console.log(totalPrice)
         });
 
         // El hr es solo para separar el precio final de la lista
@@ -208,8 +201,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const searchText = searchInput.value.toLowerCase();
 
         cards.forEach(card => {
-            console.log(card)
-            const cardTitle = card.title.toLowerCase() //card.querySelector("#card_title").textContent.toLowerCase();
+            const cardTitle = card.title.toLowerCase()
             if (cardTitle.includes(searchText)) {
                 card.element.style.display = "block"
             } else {
